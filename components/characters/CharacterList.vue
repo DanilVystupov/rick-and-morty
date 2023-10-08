@@ -1,8 +1,29 @@
 <script setup lang="ts">
 import { useCharacterStore } from '@/store/characterStore'
+import { computed } from 'vue';
 
 const charStore = useCharacterStore();
 charStore.fetchCharacters()
+
+const filteredCharacters = computed(() => {
+  if (charStore.selectedStatus === 'all') {
+    return charStore.characters;
+  } else {
+    return charStore.characters.filter(
+      (character) => character.status === charStore.selectedStatus
+    );
+  }
+});
+
+const noCharactersFound = computed(() => {
+  return (
+    (!charStore.characters) ||
+    (charStore.selectedStatus !== 'all' &&
+      !filteredCharacters.value.some((character) =>
+        character.status === charStore.selectedStatus
+      ))
+  );
+});
 
 </script>
 
@@ -11,9 +32,10 @@ charStore.fetchCharacters()
     <LazyUtilsLoader/>
   </div>
   <div class="card-container">
-    <div class="card" v-for="character of charStore.characters" :key="character.id">
+    <div class="card" v-for="character of filteredCharacters" :key="character.id">
       <CharactersCharacterItem :character="character"/>
     </div>
+    <div class="not-found" v-if="noCharactersFound">Ничего не найдено</div>
   </div>
 </template>
   
@@ -33,5 +55,11 @@ charStore.fetchCharacters()
   border-radius: 5px;
 }
 
+.not-found{
+  width: 100%;
+  font-size: calc(24px + 11 * (100vw / 1280));
+  text-align: center;
+  color: red;
+}
 </style>
   

@@ -17,6 +17,7 @@ const props = defineProps({
   
   <div class="card-content">
     <h2>{{ character.name }} ({{ character.species }})</h2>
+    <span>{{ character.status }}</span>
     <div class="episode-list">
       <h3>Список эпизодов с участием:</h3>
       <p v-for="(episode, index) in character.episode.slice(0, 5)" :key="index">{{ episode }}</p>

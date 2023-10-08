@@ -40,7 +40,6 @@ watch(searchQuery, (newValue) => {
             &#11198;
         </span>
     </form>
-    <div class="not-found" v-if="!store.characters">Ничего не найдено</div>
 </template>
    
 <style scoped> 
@@ -63,11 +62,5 @@ watch(searchQuery, (newValue) => {
   right: 10px; 
   transform: translateY(-50%); 
   cursor: pointer;
-}
-
-.not-found{
-    font-size: calc(24px + 11 * (100vw / 1280));
-    text-align: center;
-    color: red;
 }
 </style>

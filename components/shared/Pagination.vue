@@ -126,7 +126,7 @@ watch(currentPage, (newPage) => {
   list-style: none;
   padding: 0;
   position: absolute;
-  top: 10%;
+  top: 75px;
   left: 46px;
   z-index: 1;
   display: flex;

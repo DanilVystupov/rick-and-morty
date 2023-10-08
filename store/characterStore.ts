@@ -6,6 +6,7 @@ interface Characters {
     species: string;
     image: string;
     episode: string[];
+    status: string;
 }
 
 interface CharacterStore {
@@ -14,6 +15,7 @@ interface CharacterStore {
     totalPages: number;
     searchQuery: string;
     isLoading: boolean;
+    selectedStatus: string;
 }
 
 export const useCharacterStore = defineStore('characterStore', {
@@ -23,6 +25,7 @@ export const useCharacterStore = defineStore('characterStore', {
         totalPages: 0,
         searchQuery: '',
         isLoading: true,
+        selectedStatus: 'all',
     }),
 
     actions: {
@@ -49,6 +52,26 @@ export const useCharacterStore = defineStore('characterStore', {
                 console.error('Ошибка при загрузке данных:', error);
             }
         },
+
+        async fetchCharactersByStatus(this: CharacterStore, status: string) {
+            try {
+                this.isLoading = true;
+                const response = await fetch(`${api}?status=${status}`);
+                const charactersData = await response.json();
+                this.characters = charactersData.results;
+                this.totalPages = charactersData.info.pages;
+                this.currentPage = 1;
+                this.selectedStatus = status;
+                this.isLoading = false;
+            } catch (error) {
+                console.error('Ошибка при загрузке данных:', error);
+            }
+        },
+
+        // setSelectedStatus(this: CharacterStore, status: string) {
+        //     this.selectedStatus = status;
+        // },
+
     },
 
     getters: {
