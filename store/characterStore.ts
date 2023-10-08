@@ -43,35 +43,27 @@ export const useCharacterStore = defineStore('characterStore', {
             }
         },
 
-        async searchCharactersByName(this: CharacterStore, name: string) {
-            try {
-                const response = await fetch(`${api}/?name=${name}`);
-                const charactersData = await response.json();
-                this.characters = charactersData.results;
-            } catch (error) {
-                console.error('Ошибка при загрузке данных:', error);
-            }
-        },
-
-        async fetchCharactersByStatus(this: CharacterStore, status: string) {
+        async fetchCharactersBySearchAndStatus(this: CharacterStore, name: string, status: string) {
             try {
                 this.isLoading = true;
-                const response = await fetch(`${api}?status=${status}`);
+                let apiUrl = `${api}?name=${name}&status=${status}`;
+
+                if (status === 'all') {
+                    apiUrl = `${api}?name=${name}`;
+                }
+
+                const response = await fetch(apiUrl);
                 const charactersData = await response.json();
                 this.characters = charactersData.results;
                 this.totalPages = charactersData.info.pages;
                 this.currentPage = 1;
                 this.selectedStatus = status;
+                this.searchQuery = name;
                 this.isLoading = false;
             } catch (error) {
                 console.error('Ошибка при загрузке данных:', error);
             }
         },
-
-        // setSelectedStatus(this: CharacterStore, status: string) {
-        //     this.selectedStatus = status;
-        // },
-
     },
 
     getters: {

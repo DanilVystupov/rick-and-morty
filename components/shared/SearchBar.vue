@@ -6,12 +6,14 @@ const store = useCharacterStore();
 const searchQuery = ref('');
    
 const handleSearchInput = () => {
-    store.searchCharactersByName(searchQuery.value);
+    store.fetchCharactersBySearchAndStatus(searchQuery.value, store.selectedStatus);
+    // store.searchCharactersByName(searchQuery.value);
 };
 
 const handleSubmit = (event: Event) => {
     event.preventDefault(); 
-    store.searchCharactersByName(searchQuery.value);
+    store.fetchCharactersBySearchAndStatus(searchQuery.value, store.selectedStatus);
+    // store.searchCharactersByName(searchQuery.value);
 };
 
 const clearSearchInput = () => {
@@ -19,7 +21,8 @@ const clearSearchInput = () => {
 }
 
 watch(searchQuery, (newValue) => {
-  store.searchCharactersByName(newValue);
+    store.fetchCharactersBySearchAndStatus(newValue, store.selectedStatus);
+//   store.searchCharactersByName(newValue);
 });
 </script>
 

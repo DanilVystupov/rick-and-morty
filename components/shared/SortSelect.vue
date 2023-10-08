@@ -7,8 +7,7 @@ const selectedStatus = ref('all');
 
 const setStatusFilter = (status: string) => {
   selectedStatus.value = status;
-  store.fetchCharactersByStatus(status);
-  // store.setSelectedStatus(status);
+  store.fetchCharactersBySearchAndStatus(store.searchQuery, status);
 };
 
 </script>
