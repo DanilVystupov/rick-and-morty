@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 const api = "https://rickandmortyapi.com/api/character";
 
 interface Characters {
@@ -36,8 +34,8 @@ export const useCharacterStore = defineStore('characterStore', {
         async fetchCharacters(this: CharacterStore, page: number = this.currentPage) {
             try {
                 this.isLoading = true;
-                const response = await axios.get(`${api}?page=${page}`);
-                const charactersData = response.data;
+                const response = await fetch(`${api}?page=${page}`);
+                const charactersData = await response.json();
                 this.characters = charactersData.results;
                 this.totalPages = charactersData.info.pages;
                 this.currentPage = page;
@@ -56,8 +54,8 @@ export const useCharacterStore = defineStore('characterStore', {
                     apiUrl += `&status=${status}`;
                 }
 
-                const response = await axios.get(apiUrl);
-                const charactersData = response.data;;
+                const response = await fetch(apiUrl);
+                const charactersData = await response.json();;
 
                 if (charactersData.error) {
                     this.characters = [];
@@ -83,14 +81,14 @@ export const useCharacterStore = defineStore('characterStore', {
                 this.isLoading = true;
                 this.characters = [];
 
-                const initialResponse = await axios.get(`${api}?page=1`);
-                const initialData = initialResponse.data;
+                const initialResponse = await fetch(`${api}?page=1`);
+                const initialData = await initialResponse.json();
                 const totalPages = initialData.info.pages;
 
                 const allCharacters: Characters[] = [];
                 for (let page = 1; page <= totalPages; page++) {
-                    const response = await axios.get(`${api}?page=${page}`);
-                    const charactersData = response.data;
+                    const response = await fetch(`${api}?page=${page}`);
+                    const charactersData = await response.json();
                     allCharacters.push(...charactersData.results);
                 }
 

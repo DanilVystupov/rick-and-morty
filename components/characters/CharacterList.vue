@@ -15,18 +15,6 @@ const filteredCharacters = computed(() => {
   }
 });
 
-const noCharactersFound = computed(() => {
-  const isLoading = charStore.isLoading;
-  const isCharactersFound = charStore.isCharactersFound;
-  const selectedStatus = charStore.selectedStatus;
-
-  const noFindStatusCharacters = !filteredCharacters.value.some((character) =>
-    character.status === selectedStatus
-  );
-
-  return !isLoading && (!isCharactersFound || noFindStatusCharacters);
-});
-
 </script>
 
 <template>
@@ -37,7 +25,7 @@ const noCharactersFound = computed(() => {
     <div class="card" v-for="character of filteredCharacters" :key="character.id">
       <CharactersCharacterItem :character="character"/>
     </div>
-    <div class="not-found" v-if="noCharactersFound">Ничего не найдено</div>
+    <div class="not-found" v-if="filteredCharacters.length === 0 && !charStore.isLoading">Ничего не найдено</div>
   </div>
 </template>
   

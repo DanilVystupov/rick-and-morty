@@ -10,6 +10,18 @@ const setStatusFilter = (status: string) => {
   store.fetchCharactersBySearchAndStatus(store.searchQuery, status);
 };
 
+onMounted(() => {
+  const savedStatus = localStorage.getItem('selectedStatus');
+  if (savedStatus) {
+    selectedStatus.value = savedStatus;
+    store.fetchCharactersBySearchAndStatus(store.searchQuery, savedStatus);
+  }
+});
+
+watch(selectedStatus, (newValue) => {
+  localStorage.setItem('selectedStatus', newValue);
+});
+
 </script>
 
 <template>
@@ -23,7 +35,7 @@ const setStatusFilter = (status: string) => {
         <option value="all">All</option>
         <option value="Alive">Alive</option>
         <option value="Dead">Dead</option>
-        <option value="unknown">Unknown</option>
+        <option value="unknown">unknown</option>
       </select>
     </div>
 </template>

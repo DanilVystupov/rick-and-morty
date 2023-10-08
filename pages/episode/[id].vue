@@ -67,7 +67,6 @@ characterUrls.value = episode.characters;
   
 <style scoped lang="css">
 .episode-container {
-  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
@@ -133,6 +132,12 @@ characterUrls.value = episode.characters;
 
 .character-image:hover {
   transform: scale(1.2);
+}
+
+@media screen and (max-width: 500px) {
+  .character-images{
+    justify-content: space-around;
+  }
 }
 </style>
 

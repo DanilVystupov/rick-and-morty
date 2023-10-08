@@ -13,12 +13,24 @@ const getEpisodeId = (episode: string) => {
   return episodeUrlParts[episodeUrlParts.length - 1];
 };
 
+
+const statusClass = computed(() => {
+  const status = props.character.status;
+  const statusClasses: Record<string,string> = {
+    'Dead': 'status-dead',
+    'Alive': 'status-alive',
+    'unknown': 'status-unknown'
+  };
+  return statusClasses[status] || 'status-default';
+});
+
 </script>
 
 <template>
-  <NuxtLink :to="`/character/${character.id}`">
+   <NuxtLink :to="`/character/${character.id}`">
     <div class="card-image">
       <img class="card-image__item" :src="character.image" alt="image character">
+      <span :class="statusClass">{{ character.status }}</span>
     </div>
   </NuxtLink>
   
@@ -52,12 +64,57 @@ a {
 }
 
 .card-image {
+  position: relative;
   display: flex;
   justify-content: center;
   cursor: pointer;
 }
+
 .card-image__item {
   max-width: 100%;
+}
+
+.card-image__status {
+  background-color: cornflowerblue;
+  border-radius: 5px;
+  position: absolute;
+  padding: 10px;
+  right: 10px;
+  top: 5px;
+}
+
+
+.status-dead {
+  border-radius: 5px;
+  position: absolute;
+  padding: 10px;
+  right: 10px;
+  top: 5px;
+  background-color: rgb(147 43 43);
+  color: white;
+  opacity: 0.9;
+}
+
+.status-alive {
+  border-radius: 5px;
+  position: absolute;
+  padding: 10px;
+  right: 10px;
+  top: 5px;
+  background-color: cornflowerblue;
+  color: white;
+  opacity: 0.9;
+}
+
+.status-unknown {
+  border-radius: 5px;
+  position: absolute;
+  padding: 10px;
+  right: 10px;
+  top: 5px;
+  background-color: grey;
+  color: white;
+  opacity: 0.9;
 }
 
 .card-content {
