@@ -7,6 +7,9 @@ charStore.fetchCharacters()
 </script>
 
 <template>
+  <div v-if="charStore.isLoading">
+    <LazyUtilsLoader/>
+  </div>
   <div class="card-container">
     <div class="card" v-for="character of charStore.characters" :key="character.id">
       <CharactersCharacterItem :character="character"/>

@@ -1,4 +1,4 @@
-const api = "https://rickandmortyapi.com/api/character";
+export const api = "https://rickandmortyapi.com/api/character";
 
 interface Characters {
     id: number;
@@ -13,6 +13,7 @@ interface CharacterStore {
     currentPage: number;
     totalPages: number;
     searchQuery: string;
+    isLoading: boolean;
 }
 
 export const useCharacterStore = defineStore('characterStore', {
@@ -21,16 +22,19 @@ export const useCharacterStore = defineStore('characterStore', {
         currentPage: 1,
         totalPages: 0,
         searchQuery: '',
+        isLoading: true,
     }),
 
     actions: {
         async fetchCharacters(this: CharacterStore, page: number = this.currentPage) {
             try {
+                this.isLoading = true;
                 const response = await fetch(`${api}?page=${page}`);
                 const charactersData = await response.json();
                 this.characters = charactersData.results;
                 this.totalPages = charactersData.info.pages;
                 this.currentPage = page;
+                this.isLoading = false;
             } catch (error) {
                 console.error('Ошибка при загрузке данных:', error);
             }

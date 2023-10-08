@@ -14,6 +14,10 @@ const handleSubmit = (event: Event) => {
     store.searchCharactersByName(searchQuery.value);
 };
 
+const clearSearchInput = () => {
+    searchQuery.value = '';
+}
+
 watch(searchQuery, (newValue) => {
   store.searchCharactersByName(newValue);
 });
@@ -27,13 +31,22 @@ watch(searchQuery, (newValue) => {
             placeholder="Введите имя персонажа..."
             class="search-input"
             @input="handleSearchInput"
-        />
+        />    
+        <span 
+            class="clear-input"
+            v-if="searchQuery"
+            @click="clearSearchInput"
+        >
+            &#11198;
+        </span>
     </form>
+    <div class="not-found" v-if="!store.characters">Ничего не найдено</div>
 </template>
-   x
+   
 <style scoped> 
 .search-bar {
     margin: 10px 0;
+    position: relative;
 }
    
 .search-input {
@@ -43,5 +56,18 @@ watch(searchQuery, (newValue) => {
     border: 1px solid #ccc;
     border-radius: 4px;
     text-align: center;
+}
+.clear-input {
+  position: absolute;
+  top: 50%; 
+  right: 10px; 
+  transform: translateY(-50%); 
+  cursor: pointer;
+}
+
+.not-found{
+    font-size: calc(24px + 11 * (100vw / 1280));
+    text-align: center;
+    color: red;
 }
 </style>
