@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const api = "https://rickandmortyapi.com/api/character";
 
 interface Characters {
@@ -34,8 +36,8 @@ export const useCharacterStore = defineStore('characterStore', {
         async fetchCharacters(this: CharacterStore, page: number = this.currentPage) {
             try {
                 this.isLoading = true;
-                const response = await fetch(`${api}?page=${page}`);
-                const charactersData = await response.json();
+                const response = await axios.get(`${api}?page=${page}`);
+                const charactersData = response.data;
                 this.characters = charactersData.results;
                 this.totalPages = charactersData.info.pages;
                 this.currentPage = page;
@@ -54,8 +56,8 @@ export const useCharacterStore = defineStore('characterStore', {
                     apiUrl += `&status=${status}`;
                 }
 
-                const response = await fetch(apiUrl);
-                const charactersData = await response.json();
+                const response = await axios.get(apiUrl);
+                const charactersData = response.data;;
 
                 if (charactersData.error) {
                     this.characters = [];
@@ -75,6 +77,31 @@ export const useCharacterStore = defineStore('characterStore', {
                 console.error('Ошибка при загрузке данных:', error);
             }
         },
+
+        async fetchAllCharacters(this: CharacterStore) {
+            try {
+                this.isLoading = true;
+                this.characters = [];
+
+                const initialResponse = await axios.get(`${api}?page=1`);
+                const initialData = initialResponse.data;
+                const totalPages = initialData.info.pages;
+
+                const allCharacters: Characters[] = [];
+                for (let page = 1; page <= totalPages; page++) {
+                    const response = await axios.get(`${api}?page=${page}`);
+                    const charactersData = response.data;
+                    allCharacters.push(...charactersData.results);
+                }
+
+                this.characters = allCharacters;
+                this.totalPages = totalPages;
+                this.isLoading = false;
+            } catch (error) {
+                console.error('Ошибка при загрузке данных:', error);
+            }
+        },
+
     },
 
     getters: {

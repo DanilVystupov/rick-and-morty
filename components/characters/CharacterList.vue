@@ -63,5 +63,26 @@ const noCharactersFound = computed(() => {
   text-align: center;
   color: red;
 }
+
+@media screen and (max-width: 830px){
+
+  .card-container{
+    justify-content: space-around;
+  }
+  .card {
+    width: 35%;
+  }
+}
+
+
+@media screen and (max-width: 550px) {
+
+  .card-container{
+    justify-content: center;
+  }
+  .card {
+    width: 90%;
+  }
+}
 </style>
   

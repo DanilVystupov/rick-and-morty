@@ -8,6 +8,11 @@ const props = defineProps({
   }
 })
 
+const getEpisodeId = (episode: string) => {
+  const episodeUrlParts = episode.split('/');
+  return episodeUrlParts[episodeUrlParts.length - 1];
+};
+
 </script>
 
 <template>
@@ -21,12 +26,30 @@ const props = defineProps({
     <h2>{{ character.name }} ({{ character.species }})</h2>
     <div class="episode-list">
       <h3>Список эпизодов с участием:</h3>
-      <p v-for="(episode, index) in character.episode.slice(0, 5)" :key="index">{{ episode }}</p>
+      <ul>
+        <li v-for="(episode, id) in character.episode.slice(0, 5)" :key="id">
+          <NuxtLink :to="`/episode/${getEpisodeId(episode)}`">{{ episode }}</NuxtLink>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <style lang="css" scoped>
+
+ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin-top: 10px;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
 
 .card-image {
   display: flex;

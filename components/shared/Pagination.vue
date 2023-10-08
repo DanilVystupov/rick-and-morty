@@ -58,6 +58,7 @@ watch(currentPage, (newPage) => {
 
 <template>
   <div class="pagination" @click="closeDropdown">
+    <div class="pagination__title">Страницы:</div>
     <ul class="pagination__list">
       <li v-for="page in visiblePages" :key="page">
         <button @click="changePage(page)" :class="{ 'pagination__button--active': currentPage === page }" class="pagination__button">{{ page }}</button>
@@ -81,12 +82,19 @@ watch(currentPage, (newPage) => {
   margin-top: 20px;
 }
 
+.pagination__title {
+  display: flex;
+  align-items: center;
+  font-size: calc(20px + 11 * (100vw / 1280));
+}
+
 .pagination__list {
   display: flex;
   width: 90%;
   flex-wrap: wrap;
   list-style: none;
   gap: 5px;
+  padding: 0;
 }
 
 .pagination__item--active {

@@ -21,7 +21,7 @@ const {data: character} = await useFetch(url) as { data: any }
             <div class="card-content">
                 <h2>{{ character.name }} ({{ character.species }})</h2>
                 <p>Локация: {{ character.location.name }}</p>
-                <NuxtLink :to="`/`">Вернуться назад</NuxtLink>
+                <NuxtLink :to="`/`">Вернуться на главную</NuxtLink>
             </div>
         </div>
     </div>
@@ -31,11 +31,11 @@ const {data: character} = await useFetch(url) as { data: any }
 <style scoped lang="css">
 
 a {
-    text-decoration: none;
-    color: white;
-    background-color: blueviolet;
-    padding: 8px;
-    border-radius: 5px;
+  text-decoration: none;
+  color: white;
+  background-color: blueviolet;
+  padding: 8px;
+  border-radius: 5px;
 }
 
 .card-container {
