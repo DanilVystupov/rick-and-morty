@@ -1,29 +1,34 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useCharacterStore } from '@/store/characterStore';
-   
+
 const store = useCharacterStore();
 const searchQuery = ref('');
-   
+let timer: ReturnType<typeof setTimeout> | null = null;
+
 const handleSearchInput = () => {
-    store.fetchCharactersBySearchAndStatus(searchQuery.value, store.selectedStatus);
-    // store.searchCharactersByName(searchQuery.value);
+
+    if (timer !== null) {
+        clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+        store.fetchCharactersBySearchAndStatus(searchQuery.value, store.selectedStatus);
+    }, 500);
 };
 
 const handleSubmit = (event: Event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     store.fetchCharactersBySearchAndStatus(searchQuery.value, store.selectedStatus);
-    // store.searchCharactersByName(searchQuery.value);
 };
 
 const clearSearchInput = () => {
     searchQuery.value = '';
-}
 
-watch(searchQuery, (newValue) => {
-    store.fetchCharactersBySearchAndStatus(newValue, store.selectedStatus);
-//   store.searchCharactersByName(newValue);
-});
+    if (timer !== null) {
+        clearTimeout(timer);
+    }
+}
 </script>
 
 <template>

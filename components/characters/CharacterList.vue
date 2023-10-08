@@ -16,13 +16,15 @@ const filteredCharacters = computed(() => {
 });
 
 const noCharactersFound = computed(() => {
-  return (
-    (!charStore.characters) ||
-    (charStore.selectedStatus !== 'all' &&
-      !filteredCharacters.value.some((character) =>
-        character.status === charStore.selectedStatus
-      ))
+  const isLoading = charStore.isLoading;
+  const isCharactersFound = charStore.isCharactersFound;
+  const selectedStatus = charStore.selectedStatus;
+
+  const noFindStatusCharacters = !filteredCharacters.value.some((character) =>
+    character.status === selectedStatus
   );
+
+  return !isLoading && (!isCharactersFound || noFindStatusCharacters);
 });
 
 </script>

@@ -1,4 +1,4 @@
-export const api = "https://rickandmortyapi.com/api/character";
+const api = "https://rickandmortyapi.com/api/character";
 
 interface Characters {
     id: number;
@@ -16,6 +16,7 @@ interface CharacterStore {
     searchQuery: string;
     isLoading: boolean;
     selectedStatus: string;
+    isCharactersFound: boolean
 }
 
 export const useCharacterStore = defineStore('characterStore', {
@@ -26,6 +27,7 @@ export const useCharacterStore = defineStore('characterStore', {
         searchQuery: '',
         isLoading: true,
         selectedStatus: 'all',
+        isCharactersFound: true,
     }),
 
     actions: {
@@ -46,16 +48,25 @@ export const useCharacterStore = defineStore('characterStore', {
         async fetchCharactersBySearchAndStatus(this: CharacterStore, name: string, status: string) {
             try {
                 this.isLoading = true;
-                let apiUrl = `${api}?name=${name}&status=${status}`;
+                let apiUrl = `${api}?name=${name}`;
 
-                if (status === 'all') {
-                    apiUrl = `${api}?name=${name}`;
+                if (status !== 'all') {
+                    apiUrl += `&status=${status}`;
                 }
 
                 const response = await fetch(apiUrl);
                 const charactersData = await response.json();
-                this.characters = charactersData.results;
-                this.totalPages = charactersData.info.pages;
+
+                if (charactersData.error) {
+                    this.characters = [];
+                    this.totalPages = 0;
+                    this.isCharactersFound = true;
+                } else {
+                    this.characters = charactersData.results;
+                    this.totalPages = charactersData.info.pages;
+                    this.isCharactersFound = false;
+                }
+
                 this.currentPage = 1;
                 this.selectedStatus = status;
                 this.searchQuery = name;
