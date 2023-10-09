@@ -1,75 +1,77 @@
-# Nuxt 3 Minimal Starter
+# Проект "Rick and Morty с использованием REST API, Nuxt 3 и Pinia"
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Этот проект представляет собой простое SPA (Single Page Application), созданное с использованием Nuxt 3. Основная цель проекта - демонстрация использования Nuxt 3, REST API, библиотеки Pinia, сортировки и сохранение информации после перезагрузки страницы.
 
-## Setup
+## Технологии
 
-Make sure to install the dependencies:
+- Фронтенд: Nuxt 3, Pinia
+- REST API: [Rick and Morty API](https://rickandmortyapi.com/documentation/)
+- Стилизация: CSS
+- Развертывание на Netlify
+- Посмотреть [по клику](https://peaceful-souffle-3394e5.netlify.app/)
+
+
+## Использование
+
+### Страница index.vue:
+
+- Вывод списка персонажей с постраничной навигацией, используя REST API Rick and Morty.
+- Возможность просмотра персонажей в виде карточек.
+- Информация о каждом персонаже включает:
+  - Имя персонажа
+  - Разновидность (Human, Alien или другое)
+  - Картинку персонажа
+  - Список эпизодов, в которых участвовал персонаж (первые пять записей)
+- Поиск по имени и фильтрация по статусу (alive/dead/unknown) с корректным взаимодействием.
+- Постраничная навигация
+
+### Страница character.vue:
+
+- Отображение карточки с информацией о выбранном персонаже.
+- Информация включает:
+  - Имя персонажа
+  - Разновидность
+  - Картинку персонажа
+  - Локацию персонажа
+
+### Страница episode.vue:
+
+- Отображение карточки с информацией о выбранном эпизоде.
+- Информация включает:
+  - Название эпизода
+  - Дату премьеры
+  - Картинки всех персонажей, участвовавших в эпизоде
+- Картинки персонажей кликабельны и перенаправляют на страницу персонажа (character.vue).
+
+
+## Установка
+
+1. Склонируйте репозиторий:
 
 ```bash
-# npm
+git clone https://github.com/ваш-пользователь/ваш-репозиторий.git
+```
+
+2. Перейдите в директорию проекта:
+
+```bash
+cd ваш-репозиторий
+```
+
+3. Установите зависимости:
+
+```bash
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+4. Запустите проект:
 
 ```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+5. Откройте проект по ссылке, указанной в терминале (пример ссылки):
 
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+ ```bash
+http://localhost:3000/
 ```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
