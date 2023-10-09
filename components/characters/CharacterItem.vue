@@ -24,10 +24,15 @@ const statusClass = computed(() => {
   return statusClasses[status] || 'status-default';
 });
 
+const clearLocalStorage = () => {
+  localStorage.removeItem('searchQuery');
+  localStorage.removeItem('selectedStatus');
+};
+
 </script>
 
 <template>
-   <NuxtLink :to="`/character/${character.id}`">
+   <NuxtLink :to="`/character/${character.id}`" @click="clearLocalStorage">
     <div class="card-image">
       <img class="card-image__item" :src="character.image" alt="image character">
       <span :class="statusClass">{{ character.status }}</span>
@@ -40,7 +45,12 @@ const statusClass = computed(() => {
       <h3>Список эпизодов с участием:</h3>
       <ul>
         <li v-for="(episode, id) in character.episode.slice(0, 5)" :key="id">
-          <NuxtLink :to="`/episode/${getEpisodeId(episode)}`">{{ episode }}</NuxtLink>
+          <NuxtLink 
+            :to="`/episode/${getEpisodeId(episode)}`" 
+            @click="clearLocalStorage"
+          >
+            {{ episode }}
+          </NuxtLink>
         </li>
       </ul>
     </div>
@@ -71,7 +81,7 @@ a {
 }
 
 .card-image__item {
-  max-width: 100%;
+  width: 100%;
 }
 
 .card-image__status {
@@ -88,7 +98,7 @@ a {
   border-radius: 5px;
   position: absolute;
   padding: 10px;
-  right: 10px;
+  right: 5px;
   top: 5px;
   background-color: rgb(147 43 43);
   color: white;

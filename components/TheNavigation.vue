@@ -1,7 +1,7 @@
 <template>
-   <SharedPagination/>
-   <SharedSearchBar/>
-   <SharedSortSelect/>
+   <SharedPaginationCharacters/>
+   <SharedSearchCharacters/>
+   <SharedSortCharactersStatus/>
 </template>
 
 <style lang="scss" scoped>

@@ -3,7 +3,14 @@ import { useCharacterStore } from '@/store/characterStore'
 import { computed } from 'vue';
 
 const charStore = useCharacterStore();
-charStore.fetchCharacters()
+
+const isLoading = ref(charStore.isLoading);
+
+onMounted(async () => {
+  await charStore.fetchCharacters();
+  isLoading.value = false;
+});
+
 
 const filteredCharacters = computed(() => {
   if (charStore.selectedStatus === 'all') {
@@ -18,7 +25,7 @@ const filteredCharacters = computed(() => {
 </script>
 
 <template>
-  <div v-if="charStore.isLoading">
+  <div v-if="isLoading">
     <LazyUtilsLoader/>
   </div>
   <div class="card-container">
